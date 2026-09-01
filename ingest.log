@@ -1,0 +1,385 @@
+
+> edufix-pk@0.1.0 db:ingest
+> tsx scripts/ingest-kb.ts
+
+Scanning C:\Users\HP ProBook\Documents\Qoder\2026-08-29\73c44a93\knowledge-base-source...
+Found 254 parseable source files out of 254 total.
+[1/254] 2058_s20_ms_11.pdf
+[2/254] 2058_s20_ms_12.pdf
+[3/254] 2058_s20_ms_21.pdf
+[4/254] 2058_s20_ms_22.pdf
+[5/254] 2058_s20_qp_11.pdf
+[6/254] 2058_s20_qp_12.pdf
+[7/254] 2058_s20_qp_21.pdf
+[8/254] 2058_s20_qp_22.pdf
+[9/254] 2058_s21_er.pdf
+[10/254] 2058_s21_ms_11.pdf
+Warning: TT: undefined function: 32
+[11/254] 2058_s21_ms_12.pdf
+[12/254] 2058_s21_ms_21.pdf
+[13/254] 2058_s21_ms_22.pdf
+[14/254] 2058_s21_qp_11.pdf
+[15/254] 2058_s21_qp_12.pdf
+[16/254] 2058_s21_qp_21.pdf
+[17/254] 2058_s21_qp_22.pdf
+[18/254] 2058_s22_er.pdf
+[19/254] 2058_s22_ms_11.pdf
+[20/254] 2058_s22_ms_12.pdf
+Warning: TT: undefined function: 32
+[21/254] 2058_s22_ms_21.pdf
+[22/254] 2058_s22_ms_22.pdf
+[23/254] 2058_s22_qp_11.pdf
+[24/254] 2058_s22_qp_12.pdf
+[25/254] 2058_s22_qp_21.pdf
+[26/254] 2058_s22_qp_22.pdf
+[27/254] 2058_s23_er.pdf
+[28/254] 2058_s23_ms_11.pdf
+[29/254] 2058_s23_ms_12.pdf
+Warning: TT: undefined function: 32
+[30/254] 2058_s23_ms_21.pdf
+[31/254] 2058_s23_ms_22.pdf
+[32/254] 2058_s23_qp_11.pdf
+[33/254] 2058_s23_qp_12.pdf
+[34/254] 2058_s23_qp_21.pdf
+[35/254] 2058_s23_qp_22.pdf
+[36/254] 2058_s24_ms_11.pdf
+Warning: TT: undefined function: 32
+[37/254] 2058_s24_ms_12.pdf
+[38/254] 2058_s24_ms_21.pdf
+[39/254] 2058_s24_ms_22.pdf
+[40/254] 2058_s24_qp_11.pdf
+[41/254] 2058_s24_qp_12.pdf
+[42/254] 2058_s24_qp_21.pdf
+[43/254] 2058_s24_qp_22.pdf
+[44/254] 2058_s25_ms_11.pdf
+Warning: TT: undefined function: 32
+[45/254] 2058_s25_ms_12.pdf
+Warning: TT: undefined function: 32
+[46/254] 2058_s25_ms_21.pdf
+[47/254] 2058_s25_ms_22.pdf
+[48/254] 2058_s25_qp_11.pdf
+[49/254] 2058_s25_qp_12.pdf
+[50/254] 2058_s25_qp_21.pdf
+[51/254] 2058_s25_qp_22.pdf
+[52/254] 2058_s26_ms_11.pdf
+Warning: TT: undefined function: 21
+Warning: TT: undefined function: 21
+[53/254] 2058_s26_ms_12.pdf
+Warning: TT: undefined function: 21
+Warning: TT: undefined function: 21
+[54/254] 2058_s26_ms_21.pdf
+[55/254] 2058_s26_ms_22.pdf
+[56/254] 2058_s26_qp_11.pdf
+[57/254] 2058_s26_qp_12.pdf
+[58/254] 2058_s26_qp_21.pdf
+[59/254] 2058_s26_qp_22.pdf
+[60/254] 2058_w20_er.pdf
+[61/254] 2058_w20_ms_11.pdf
+[62/254] 2058_w20_ms_12.pdf
+[63/254] 2058_w20_ms_21.pdf
+[64/254] 2058_w20_ms_22.pdf
+[65/254] 2058_w20_qp_11.pdf
+[66/254] 2058_w20_qp_12.pdf
+[67/254] 2058_w20_qp_21.pdf
+[68/254] 2058_w20_qp_22.pdf
+[69/254] 2058_w21_er.pdf
+[70/254] 2058_w21_ms_11.pdf
+[71/254] 2058_w21_ms_12.pdf
+Warning: TT: undefined function: 32
+[72/254] 2058_w21_ms_21.pdf
+[73/254] 2058_w21_ms_22.pdf
+[74/254] 2058_w21_qp_11.pdf
+[75/254] 2058_w21_qp_12.pdf
+[76/254] 2058_w21_qp_21.pdf
+[77/254] 2058_w21_qp_22.pdf
+[78/254] 2058_w22_er.pdf
+[79/254] 2058_w22_ms_11.pdf
+Warning: TT: undefined function: 32
+[80/254] 2058_w22_ms_12.pdf
+[81/254] 2058_w22_ms_21.pdf
+[82/254] 2058_w22_ms_22.pdf
+[83/254] 2058_w22_qp_11.pdf
+[84/254] 2058_w22_qp_12.pdf
+[85/254] 2058_w22_qp_21.pdf
+[86/254] 2058_w22_qp_22.pdf
+[87/254] 2058_w23_er.pdf
+[88/254] 2058_w23_ms_11.pdf
+[89/254] 2058_w23_ms_12.pdf
+Warning: TT: undefined function: 32
+[90/254] 2058_w23_ms_21.pdf
+[91/254] 2058_w23_ms_22.pdf
+Warning: TT: undefined function: 32
+[92/254] 2058_w23_qp_11.pdf
+[93/254] 2058_w23_qp_12.pdf
+[94/254] 2058_w23_qp_21.pdf
+[95/254] 2058_w23_qp_22.pdf
+[96/254] 2058_w24_ms_11.pdf
+[97/254] 2058_w24_ms_12.pdf
+[98/254] 2058_w24_ms_21.pdf
+[99/254] 2058_w24_ms_22.pdf
+[100/254] 2058_w24_qp_11.pdf
+[101/254] 2058_w24_qp_12.pdf
+[102/254] 2058_w24_qp_21.pdf
+[103/254] 2058_w24_qp_22.pdf
+[104/254] 2058_w25_ms_11.pdf
+Warning: TT: undefined function: 21
+[105/254] 2058_w25_ms_12.pdf
+[106/254] 2058_w25_ms_21.pdf
+[107/254] 2058_w25_ms_22.pdf
+[108/254] 2058_w25_qp_11.pdf
+[109/254] 2058_w25_qp_12.pdf
+[110/254] 2058_w25_qp_21.pdf
+[111/254] 2058_w25_qp_22.pdf
+[112/254] 635787-2024-2025-syllabus.pdf
+[113/254] 2059_s20_in_01.pdf
+[114/254] 2059_s20_in_02.pdf
+[115/254] 2059_s20_ms_1.pdf
+[116/254] 2059_s20_ms_2.pdf
+Warning: TT: undefined function: 32
+[117/254] 2059_s20_qp_01.pdf
+[118/254] 2059_s20_qp_02.pdf
+[119/254] 2059_s21_er.pdf
+[120/254] 2059_s21_in_01.pdf
+[121/254] 2059_s21_in_02.pdf
+[122/254] 2059_s21_ms_1.pdf
+[123/254] 2059_s21_ms_2.pdf
+[124/254] 2059_s21_qp_01.pdf
+[125/254] 2059_s21_qp_02.pdf
+[126/254] 2059_s22_er.pdf
+[127/254] 2059_s22_in_01.pdf
+[128/254] 2059_s22_in_02.pdf
+[129/254] 2059_s22_ms_1.pdf
+[130/254] 2059_s22_ms_2.pdf
+[131/254] 2059_s22_qp_01.pdf
+[132/254] 2059_s22_qp_02.pdf
+[133/254] 2059_s23_er.pdf
+[134/254] 2059_s23_in_01.pdf
+[135/254] 2059_s23_in_02.pdf
+[136/254] 2059_s23_ms_1.pdf
+[137/254] 2059_s23_ms_2.pdf
+[138/254] 2059_s23_qp_01.pdf
+[139/254] 2059_s23_qp_02.pdf
+[140/254] 2059_s24_in_01.pdf
+[141/254] 2059_s24_in_02.pdf
+[142/254] 2059_s24_ms_1.pdf
+[143/254] 2059_s24_ms_2.pdf
+[144/254] 2059_s24_qp_01.pdf
+[145/254] 2059_s24_qp_02.pdf
+[146/254] 2059_s25_in_01.pdf
+[147/254] 2059_s25_in_02.pdf
+[148/254] 2059_s25_ms_1.pdf
+[149/254] 2059_s25_ms_2.pdf
+[150/254] 2059_s25_qp_01.pdf
+[151/254] 2059_s25_qp_02.pdf
+[152/254] 2059_s26_in_01.pdf
+[153/254] 2059_s26_in_02.pdf
+[154/254] 2059_s26_ms_1.pdf
+[155/254] 2059_s26_ms_2.pdf
+[156/254] 2059_s26_qp_01.pdf
+[157/254] 2059_w20_er.pdf
+[158/254] 2059_w20_in_01.pdf
+[159/254] 2059_w20_in_02.pdf
+[160/254] 2059_w20_ms_1.pdf
+[161/254] 2059_w20_qp_01.pdf
+[162/254] 2059_w21_er.pdf
+[163/254] 2059_w21_in_01.pdf
+[164/254] 2059_w21_in_02.pdf
+[165/254] 2059_w21_ms_1.pdf
+[166/254] 2059_w21_ms_2.pdf
+[167/254] 2059_w21_qp_01.pdf
+[168/254] 2059_w21_qp_02.pdf
+[169/254] 2059_w22_er.pdf
+[170/254] 2059_w22_in_01.pdf
+[171/254] 2059_w22_in_02.pdf
+[172/254] 2059_w22_ms_1.pdf
+[173/254] 2059_w22_ms_2.pdf
+[174/254] 2059_w22_qp_01.pdf
+[175/254] 2059_w22_qp_02.pdf
+[176/254] 2059_w23_er.pdf
+[177/254] 2059_w23_in_01.pdf
+[178/254] 2059_w23_in_02.pdf
+[179/254] 2059_w23_ms_1.pdf
+[180/254] 2059_w23_ms_2.pdf
+[181/254] 2059_w23_qp_01.pdf
+[182/254] 2059_w23_qp_02.pdf
+[183/254] 2059_w24_in_01.pdf
+[184/254] 2059_w24_in_02.pdf
+[185/254] 2059_w24_ms_1.pdf
+[186/254] 2059_w24_ms_2.pdf
+[187/254] 2059_w24_qp_01.pdf
+[188/254] 2059_w24_qp_02.pdf
+[189/254] 2059_w25_in_01.pdf
+[190/254] 2059_w25_in_02.pdf
+[191/254] 2059_w25_ms_1.pdf
+[192/254] 2059_w25_ms_2.pdf
+[193/254] 2059_w25_qp_01.pdf
+[194/254] 2059_w25_qp_02.pdf
+[195/254] 697282-2026-syllabus.pdf
+[196/254] 3248_s20_ms_1.pdf
+[197/254] 3248_s20_ms_2.pdf
+[198/254] 3248_s20_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+[199/254] 3248_s20_qp_02.pdf
+  -> no extractable text, skipping
+[200/254] 3248_s21_ms_1.pdf
+[201/254] 3248_s21_ms_2.pdf
+[202/254] 3248_s21_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[203/254] 3248_s21_qp_02.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[204/254] 3248_s22_er.pdf
+[205/254] 3248_s22_ms_1.pdf
+[206/254] 3248_s22_ms_2.pdf
+[207/254] 3248_s22_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+[208/254] 3248_s22_qp_02.pdf
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[209/254] 3248_s23_er.pdf
+[210/254] 3248_s23_ms_1.pdf
+[211/254] 3248_s23_ms_2.pdf
+[212/254] 3248_s23_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+[213/254] 3248_s23_qp_02.pdf
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[214/254] 3248_s24_ms_1.pdf
+[215/254] 3248_s24_ms_2.pdf
+[216/254] 3248_s24_qp_01.pdf
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[217/254] 3248_s24_qp_02.pdf
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: Required "glyf" table is not found -- trying to recover.
+[218/254] 3248_s25_ms_1.pdf
+[219/254] 3248_s25_ms_2.pdf
+Warning: TT: undefined function: 32
+[220/254] 3248_s25_qp_01.pdf
+[221/254] 3248_s25_qp_02.pdf
+[222/254] 3248_s26_ms_1.pdf
+[223/254] 3248_s26_ms_2.pdf
+Warning: TT: undefined function: 21
+[224/254] 3248_s26_qp_01.pdf
+[225/254] 3248_s26_qp_02.pdf
+[226/254] 3248_w20_er.pdf
+[227/254] 3248_w20_ms_1.pdf
+[228/254] 3248_w20_ms_2.pdf
+[229/254] 3248_w20_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+[230/254] 3248_w20_qp_02.pdf
+[231/254] 3248_w21_er.pdf
+Warning: TT: undefined function: 32
+[232/254] 3248_w21_ms_1.pdf
+[233/254] 3248_w21_ms_2.pdf
+[234/254] 3248_w21_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[235/254] 3248_w21_qp_02.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[236/254] 3248_w22_er.pdf
+[237/254] 3248_w22_ms_1.pdf
+[238/254] 3248_w22_ms_2.pdf
+[239/254] 3248_w22_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[240/254] 3248_w22_qp_02.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[241/254] 3248_w23_er.pdf
+[242/254] 3248_w23_ms_1.pdf
+[243/254] 3248_w23_ms_2.pdf
+[244/254] 3248_w23_qp_01.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[245/254] 3248_w23_qp_02.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+Warning: TT: undefined function: 32
+[246/254] 3248_w24_ms_1.pdf
+[247/254] 3248_w24_ms_2.pdf
+[248/254] 3248_w24_qp_01.pdf
+[249/254] 3248_w24_qp_02.pdf
+[250/254] 3248_w25_ms_1.pdf
+[251/254] 3248_w25_ms_2.pdf
+Warning: TT: undefined function: 21
+[252/254] 3248_w25_qp_01.pdf
+[253/254] 3248_w25_qp_02.pdf
+Warning: Required "glyf" table is not found -- trying to recover.
+[254/254] 634455-2024-2026-syllabus.pdf
+Embedding 6213 chunks in batches of 100...
+  embedded batch 1/63
+  -> waiting 60s for quota window...
+  embedded batch 2/63
+  -> waiting 60s for quota window...
+  embedded batch 3/63
+  -> waiting 60s for quota window...
+  embedded batch 4/63
+  -> waiting 60s for quota window...
+  embedded batch 5/63
+  -> waiting 60s for quota window...
+  embedded batch 6/63
+  -> waiting 60s for quota window...
+  -> embedding attempt 1 failed, retrying in 1000ms...
+  -> embedding attempt 2 failed, retrying in 2000ms...
+  -> embedding attempt 3 failed, retrying in 4000ms...
+  -> embedding attempt 4 failed, retrying in 8000ms...
+  -> embedding attempt 5 failed, retrying in 16000ms...
+Ingestion failed: {"error":{"code":429,"message":"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ","status":"RESOURCE_EXHAUSTED","details":[{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]}]}}
