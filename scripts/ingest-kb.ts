@@ -4,6 +4,8 @@ import { extractText } from "unpdf";
 import { loadEnvFile } from "./lib/load-env";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { embedTexts } from "@/lib/ai/embeddings";
+import { assertSubjectId } from "@/lib/subjects";
+import { createSubTopicTagger, type SubTopicTagger } from "./lib/subtopic-tagger";
 
 loadEnvFile();
 
@@ -335,6 +337,21 @@ async function processFiles(files: string[]) {
   let documentsSkipped = 0;
   let chunksInserted = 0;
 
+  // sub_topic tagging — one lazily-built DETERMINISTIC tagger per subject.
+  // Tagging is exact keyword matching over chunk content + filename (no
+  // embeddings, no API calls). Rules live in scripts/lib/subtopic-tagger.ts.
+  const taggers = new Map<string, SubTopicTagger | null>();
+  function getTagger(
+    subjectId: string,
+    subjectCode: string
+  ): SubTopicTagger | null {
+    const cached = taggers.get(subjectId);
+    if (cached !== undefined) return cached;
+    const tagger = createSubTopicTagger(assertSubjectId(subjectId), subjectCode);
+    taggers.set(subjectId, tagger);
+    return tagger;
+  }
+
   for (let i = 0; i < parsedFiles.length; i++) {
     const meta = parsedFiles[i];
     console.log(`[${i + 1}/${parsedFiles.length}] ${path.basename(meta.filePath)}`);
@@ -400,26 +417,38 @@ async function processFiles(files: string[]) {
 
     console.log(`  -> embedding and inserting ${chunks.length} chunks...`);
 
+    const tagger = getTagger(meta.subject_id, meta.code);
+    const sourceFilename = path.basename(meta.filePath);
+
     for (let j = 0; j < chunks.length; j += EMBED_BATCH_SIZE) {
       const batchContents = chunks.slice(j, j + EMBED_BATCH_SIZE);
       const embeddings = await embedWithRetry(batchContents);
 
-      const rows: ChunkRow[] = batchContents.map((content, k) => ({
-        document_id: documentId,
-        subject_id: meta.subject_id,
-        content,
-        metadata: {
-          code: meta.code,
-          paper_code: meta.paper_code,
-          year: meta.year,
-          session: meta.session,
-          paper: meta.paper,
-          subcategory: meta.subcategory,
-          source_filename: path.basename(meta.filePath),
-          category: meta.category,
-        },
-        embedding: embeddings[k],
-      }));
+      const rows: ChunkRow[] = batchContents.map((content, k) => {
+        // Deterministic keyword match over content + filename; else
+        // `general<code>`. See scripts/lib/subtopic-tagger.ts.
+        const subTopic = tagger
+          ? tagger.tagChunk(content, sourceFilename)
+          : `general${meta.code}`;
+        return {
+          document_id: documentId,
+          subject_id: meta.subject_id,
+          content,
+          metadata: {
+            code: meta.code,
+            subject_code: meta.code,
+            sub_topic: subTopic,
+            paper_code: meta.paper_code,
+            year: meta.year,
+            session: meta.session,
+            paper: meta.paper,
+            subcategory: meta.subcategory,
+            source_filename: sourceFilename,
+            category: meta.category,
+          },
+          embedding: embeddings[k],
+        };
+      });
 
       const { error } = await supabase.from("kb_chunks").insert(rows);
       if (error) {
@@ -441,6 +470,19 @@ async function processFiles(files: string[]) {
         await new Promise((r) => setTimeout(r, 60000));
       }
     }
+  }
+
+  console.log("\nsub_topic tagging distribution (deterministic keywords):");
+  for (const [subjectId, tagger] of taggers) {
+    if (!tagger) {
+      console.log(`  ${subjectId}: no subject code (all chunks general)`);
+      continue;
+    }
+    const s = tagger.stats;
+    console.log(
+      `  ${subjectId} (code ${tagger.subjectCode}, ${tagger.ruleCount} keyword rules): ` +
+        `keyword=${s.keyword} ambiguous=${s.ambiguous} general=${s.general}`
+    );
   }
 
   console.log("\nIngestion summary:");

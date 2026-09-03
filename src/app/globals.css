@@ -128,3 +128,283 @@
     @apply font-sans;
   }
 }
+
+/*
+ * Notes PDF export (Task 4.3). The generated notes panel is the print root
+ * (#notes-print-area); everything else — navbar, topic selector, action bar —
+ * is hidden so "Export PDF" produces a clean, on-theme study sheet. Interactive
+ * chrome inside the panel opts out via Tailwind's `print:hidden` variant.
+ */
+@media print {
+  @page {
+    margin: 16mm;
+  }
+  body * {
+    visibility: hidden !important;
+  }
+  #notes-print-area,
+  #notes-print-area * {
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  #notes-print-area {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/*
+ * Urdu (3248) typography (Task 7.1 / Refactor Req #1). The /[subject] layout no
+ * longer flips a global dir="rtl" (that inverted the navbar + grids); it scopes
+ * lang="ur" to the module content instead. Keying the Nastaliq-preferred stack
+ * off [lang="ur"] gives auto-directional text nodes and text inputs the Urdu
+ * font + a looser line-height, while the LTR app chrome (labels/buttons/grids)
+ * keeps the default sans font. Per-node RTL still comes from dir="auto" on the
+ * text components. Uses locally available fonts — no build-time network fetch.
+ */
+[lang="ur"] textarea,
+[lang="ur"] [dir="auto"] {
+  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting",
+    "Nafees Web Naskh", var(--font-geist-sans), system-ui, sans-serif;
+  line-height: 2;
+}
+
+/* Badges also use dir="auto"; keep the fixed-height chip from clipping. */
+[lang="ur"] [data-slot="badge"][dir="auto"] {
+  line-height: 1.2;
+}
+
+/*
+ * ── /login — custom styling layered onto the unstyled semantic AuthForm ──────
+ * Per the auth convention the AuthForm ships functional + unstyled with stable
+ * semantic hooks (auth-page, form-field, …); this is the deferred custom-CSS
+ * layer. Everything is scoped under `.auth-page` so the design's generic hooks
+ * (.form, .label, .submit, .span) can never leak into other routes. The four
+ * design tokens are hoisted onto `.auth-page` (not just `.form`) because the
+ * footer switch sits OUTSIDE the <form> and still needs them.
+ */
+.auth-page {
+  --bg-light: #efefef;
+  --bg-dark: #707070;
+  --clr: #58bc82;
+  --clr-alpha: #9c9c9c60;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: var(--bg-light);
+}
+
+/* Supporting shell: centers + frames the 300px form the design targets. */
+.auth-page .auth-card {
+  width: 100%;
+  max-width: 348px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 10%);
+}
+
+/* ── Provided design ─────────────────────────────────────────────────────── */
+.auth-page .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.auth-page .form .input-span {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-page .form input[type="email"],
+.auth-page .form input[type="password"],
+.auth-page .form .form-input {
+  border-radius: 0.5rem;
+  padding: 1rem 0.75rem;
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--clr-alpha);
+  outline: 2px solid var(--bg-dark);
+}
+
+.auth-page .form input[type="email"]:focus,
+.auth-page .form input[type="password"]:focus,
+.auth-page .form .form-input:focus {
+  outline: 2px solid var(--clr);
+}
+
+.auth-page .label {
+  align-self: flex-start;
+  color: var(--clr);
+  font-weight: 600;
+}
+
+.auth-page .form .submit {
+  padding: 1rem 0.75rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* text-only full-width button → center the label */
+  gap: 0.5rem;
+  border-radius: 3rem;
+  background-color: var(--bg-dark);
+  color: var(--bg-light);
+  border: none;
+  cursor: pointer;
+  transition: all 300ms;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.auth-page .form .submit:hover {
+  background-color: var(--clr);
+  color: var(--bg-dark);
+}
+
+.auth-page .form .submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-page .span {
+  text-decoration: none;
+  color: var(--bg-dark);
+  font-size: 0.9rem;
+}
+
+.auth-page .span a {
+  color: var(--clr);
+}
+
+/* ── Supporting glue for EduFix PK's richer form ───────────────────────────
+   The snippet targets a minimal email/password form; these rules keep the
+   extra controls (mode tabs, password reveal, inline feedback, link-buttons)
+   on the SAME design language using the tokens above. */
+.auth-page .auth-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: center;
+}
+.auth-page .auth-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--bg-dark);
+}
+.auth-page .auth-subtitle {
+  font-size: 0.85rem;
+  color: var(--bg-dark);
+  opacity: 0.75;
+}
+
+.auth-page .auth-tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 3rem;
+  background-color: var(--clr-alpha);
+}
+.auth-page .auth-tab {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 3rem;
+  background-color: transparent;
+  color: var(--bg-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 300ms;
+}
+.auth-page .auth-tab--active {
+  background-color: var(--clr);
+  color: #ffffff;
+}
+
+.auth-page .password-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+.auth-page .password-control .form-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.auth-page .password-toggle {
+  flex: 0 0 auto;
+  padding: 0.6rem 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--bg-dark);
+  color: var(--bg-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 300ms;
+}
+.auth-page .password-toggle:hover {
+  background-color: var(--clr);
+  color: var(--bg-dark);
+}
+
+.auth-page .form-extras {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.auth-page .auth-status {
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.auth-page .auth-status--error {
+  background-color: #fdecea;
+  color: #b3261e;
+}
+.auth-page .auth-status--success {
+  background-color: #e8f6ee;
+  color: #2e7d4f;
+}
+.auth-page .auth-status--loading {
+  background-color: var(--clr-alpha);
+  color: var(--bg-dark);
+}
+.auth-page .field-error {
+  color: #b3261e;
+  font-size: 0.8rem;
+}
+
+.auth-page .auth-footer {
+  text-align: center;
+}
+.auth-page .link-button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--clr);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}

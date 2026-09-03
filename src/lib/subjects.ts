@@ -6,10 +6,12 @@
  * registry instead of hardcoding IDs.
  */
 
+export type TextDirection = "ltr" | "rtl";
+
 export const SUBJECTS = [
-  { id: "pak-studies", name: "Pakistan Studies", code: "2059" },
-  { id: "islamiyat", name: "Islamiyat", code: "2058" },
-  { id: "urdu", name: "Urdu", code: "3248" },
+  { id: "pak-studies", name: "Pakistan Studies", code: "2059", dir: "ltr", lang: "en" },
+  { id: "islamiyat", name: "Islamiyat", code: "2058", dir: "ltr", lang: "en" },
+  { id: "urdu", name: "Urdu", code: "3248", dir: "rtl", lang: "ur" },
 ] as const;
 
 export type SubjectId = (typeof SUBJECTS)[number]["id"];
@@ -33,4 +35,17 @@ export function assertSubjectId(value: string): SubjectId {
 
 export function getSubject(id: string) {
   return SUBJECTS.find((s) => s.id === id);
+}
+
+/**
+ * Text direction for a subject's `/[subject]/*` routes. Urdu (3248) is the only
+ * right-to-left subject; unknown ids fall back to LTR (rules.md §1).
+ */
+export function getSubjectDir(id: string): TextDirection {
+  return getSubject(id)?.dir ?? "ltr";
+}
+
+/** BCP-47 language tag for a subject's rendered content (Urdu → "ur"). */
+export function getSubjectLang(id: string): string {
+  return getSubject(id)?.lang ?? "en";
 }

@@ -5,6 +5,10 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 
+import { createSubTopicTagger, type SubTopicTagger } from './lib/subtopic-tagger';
+import { createProvinceTagger } from './lib/province-tagger';
+import { getSubject, assertSubjectId } from '@/lib/subjects';
+
 dotenv.config({ path: '.env.local' });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
@@ -73,6 +77,7 @@ function parseCambridgeFilename(filePath: string) {
 
   return {
     subject_id: subjectId,
+    subject_code: getSubject(subjectId)?.code ?? '',
     category: category,
     session: session,
     year: year,
@@ -112,6 +117,25 @@ function getPdfFiles(dir: string): string[] {
 async function runManualIngestion() {
   console.log('🚀 Initializing Local Embedding Model (Xenova/all-mpnet-base-v2)...');
   const extractor = await pipeline('feature-extraction', 'Xenova/all-mpnet-base-v2');
+
+  // sub_topic tagging — one lazily-built DETERMINISTIC tagger per subject.
+  // Exact keyword matching over chunk content + filename (no embeddings); rules
+  // live in scripts/lib/subtopic-tagger.ts.
+  const taggers = new Map<string, SubTopicTagger | null>();
+  const getTagger = (subjectId: string): SubTopicTagger | null => {
+    const cached = taggers.get(subjectId);
+    if (cached !== undefined) return cached;
+    const tagger = createSubTopicTagger(
+      assertSubjectId(subjectId),
+      getSubject(subjectId)?.code ?? ''
+    );
+    taggers.set(subjectId, tagger);
+    return tagger;
+  };
+
+  // province tagging (2059 Geography) — one deterministic tagger; its keywords
+  // are Pakistan-geography-specific so it is applied to pak-studies chunks only.
+  const provinceTagger = createProvinceTagger();
 
   console.log('🚀 Starting Ingestion Pipeline...\n');
   const pdfFiles = getPdfFiles(SOURCE_DIR);
@@ -159,15 +183,28 @@ async function runManualIngestion() {
       }
 
       const chunks = chunkText(extractedText);
+      const tagger = getTagger(metadata.subject_id);
 
       for (const chunk of chunks) {
         const output = await extractor(chunk, { pooling: 'mean', normalize: true });
         const vector = Array.from(output.data);
 
+        // Deterministic keyword match over content + filename -> `general<code>`.
+        const subTopic = tagger
+          ? tagger.tagChunk(chunk, metadata.filename)
+          : `general${metadata.subject_code}`;
+
+        // Deterministic province stamp for Pakistan Studies (2059 Geography);
+        // omitted (no key) when the chunk resolves to no single province.
+        const province =
+          metadata.subject_id === 'pak-studies'
+            ? provinceTagger.tagChunk(chunk, metadata.filename)
+            : undefined;
+
         const { error } = await supabase.from('kb_chunks').insert({
           subject_id: metadata.subject_id,
           content: chunk,
-          metadata: metadata,
+          metadata: { ...metadata, sub_topic: subTopic, ...(province ? { province } : {}) },
           embedding: vector
         });
 
@@ -182,6 +219,26 @@ async function runManualIngestion() {
       skippedFiles++;
     }
   }
+
+  console.log('\n🏷️  sub_topic tagging distribution (deterministic keywords):');
+  for (const [subjectId, tagger] of taggers) {
+    if (!tagger) {
+      console.log(`  ${subjectId}: no subject code (all chunks general)`);
+      continue;
+    }
+    const s = tagger.stats;
+    console.log(
+      `  ${subjectId} (code ${tagger.subjectCode}, ${tagger.ruleCount} keyword rules): ` +
+        `keyword=${s.keyword} ambiguous=${s.ambiguous} general=${s.general}`
+    );
+  }
+
+  const ps = provinceTagger.stats;
+  console.log('\n🗺️  province tagging distribution (pak-studies 2059 Geography):');
+  console.log(
+    `  balochistan=${ps.balochistan} sindh=${ps.sindh} punjab=${ps.punjab} kpk_north=${ps.kpk_north} ` +
+      `ambiguous=${ps.ambiguous} untagged=${ps.untagged}`
+  );
 
   console.log(`\n✅ Ingestion Complete! Stored ${totalChunksIngested} chunks with structured Cambridge metadata.`);
 }

@@ -12,6 +12,12 @@ import type { SubjectId } from "@/lib/subjects";
 export interface TopicOption {
   id: string;
   title: string;
+  /**
+   * Optional grouping label used by the selector to render category headers.
+   * Populated for the granular sub-topic map (see kb/subtopics.ts); undefined
+   * for the flat, syllabus-derived topics.json entries.
+   */
+  group?: string;
 }
 
 export interface PaperOption {

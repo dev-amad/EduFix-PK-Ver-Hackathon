@@ -27,6 +27,16 @@ const serverEnvSchema = z.object({
   // groq-sdk appends /openai/v1 automatically; baseURL must be the host root.
   GROQ_API_KEY: z.string().min(1),
   GROQ_MODEL: z.string().default("openai/gpt-oss-120b"),
+  // Quota-resilience fallback(s): comma-separated Groq model id(s) retried when
+  // GROQ_MODEL is rate-limited. Groq's TPM (per-minute) and TPD (per-day) token
+  // budgets are PER-MODEL, so a different model has an independent pool and a
+  // daily-quota 429 on the primary no longer hard-fails the request. The default
+  // is qwen/qwen3.8-27b: a NON-reasoning model that emits JSON directly and
+  // token-efficiently. Avoid gpt-oss-20b here — it is a reasoning model that can
+  // spend the whole completion budget on hidden reasoning and return EMPTY
+  // content on large-context JSON prompts (Groq then fails it with
+  // json_validate_failed). Set to "" to disable the fallback.
+  GROQ_FALLBACK_MODEL: z.string().default("qwen/qwen3.8-27b"),
   GROQ_BASE_URL: z.string().url().default("https://api.groq.com"),
 
   // RAG guardrail
@@ -35,8 +45,16 @@ const serverEnvSchema = z.object({
   RAG_SIMILARITY_THRESHOLD: z.coerce.number().min(0).max(1).default(0.78),
 
   // Query embeddings must use the same model family as stored kb_chunks.
-  // Use "local" only for KBs ingested with scripts/manual-ingest.ts.
+  // Use "local" only for KBs embedded with scripts/reembed-local.ts (or the
+  // legacy scripts/manual-ingest.ts).
   EMBEDDING_PROVIDER: z.enum(["gemini", "local"]).default("gemini"),
+
+  // Local embedding model (when EMBEDDING_PROVIDER=local). Defaults to a 768-dim
+  // MULTILINGUAL model so Urdu embeds correctly (all-mpnet-base-v2 is English-only);
+  // 768 dims matches kb_chunks.embedding, so no schema migration is required.
+  LOCAL_EMBEDDING_MODEL: z
+    .string()
+    .default("Xenova/paraphrase-multilingual-mpnet-base-v2"),
 });
 
 const clientEnvSchema = z.object({

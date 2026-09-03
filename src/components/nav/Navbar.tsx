@@ -12,7 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MODULES, isModuleId, type ModuleId } from "@/lib/context-guard";
+import {
+  getDefaultModule,
+  getVisibleModules,
+  isModuleId,
+  isModuleVisible,
+  type ModuleId,
+} from "@/lib/context-guard";
 import { SUBJECTS, isSubjectId, type SubjectId } from "@/lib/subjects";
 import { cn } from "@/lib/utils";
 
@@ -23,8 +29,14 @@ export function Navbar() {
   const subjectId: SubjectId = isSubjectId(subjectSegment)
     ? subjectSegment
     : SUBJECTS[0].id;
-  const moduleId: ModuleId = isModuleId(moduleSegment) ? moduleSegment : "notes";
+  const rawModuleId: ModuleId = isModuleId(moduleSegment) ? moduleSegment : "notes";
   const subject = SUBJECTS.find((option) => option.id === subjectId) ?? SUBJECTS[0];
+  // Req #2 — never resolve to a module hidden for this subject (e.g. urdu/notes);
+  // fall back to the subject's default landing module instead.
+  const moduleId: ModuleId = isModuleVisible(subjectId, rawModuleId)
+    ? rawModuleId
+    : getDefaultModule(subjectId);
+  const visibleModules = getVisibleModules(subjectId);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75">
@@ -48,32 +60,39 @@ export function Navbar() {
           <DropdownMenuContent align="start" className="min-w-56">
             <DropdownMenuLabel>Subjects</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {SUBJECTS.map((option) => (
-              <DropdownMenuItem key={option.id} asChild>
-                <Link
-                  href={`/${option.id}/${moduleId}`}
-                  className="flex items-center justify-between gap-3"
-                >
-                  <span className="flex flex-col">
-                    <span>{option.name}</span>
-                    <span className="text-xs text-muted-foreground">
-                      Code {option.code}
+            {SUBJECTS.map((option) => {
+              // Req #2 — keep the current module when switching subjects, but
+              // resolve to the target's default if it hides this module (urdu).
+              const targetModule = isModuleVisible(option.id, moduleId)
+                ? moduleId
+                : getDefaultModule(option.id);
+              return (
+                <DropdownMenuItem key={option.id} asChild>
+                  <Link
+                    href={`/${option.id}/${targetModule}`}
+                    className="flex items-center justify-between gap-3"
+                  >
+                    <span className="flex flex-col">
+                      <span>{option.name}</span>
+                      <span className="text-xs text-muted-foreground">
+                        Code {option.code}
+                      </span>
                     </span>
-                  </span>
-                  {option.id === subject.id ? (
-                    <CheckIcon className="size-4 text-emerald-600" />
-                  ) : null}
-                </Link>
-              </DropdownMenuItem>
-            ))}
+                    {option.id === subject.id ? (
+                      <CheckIcon className="size-4 text-emerald-600" />
+                    ) : null}
+                  </Link>
+                </DropdownMenuItem>
+              );
+            })}
           </DropdownMenuContent>
         </DropdownMenu>
 
         <nav
           aria-label="Modules"
-          className="ml-auto flex items-center gap-1 rounded-full border border-border bg-muted/40 p-1"
+          className="ms-auto flex items-center gap-1 rounded-full border border-border bg-muted/40 p-1"
         >
-          {MODULES.map((module) => {
+          {visibleModules.map((module) => {
             const active = module.id === moduleId;
             return (
               <Link

@@ -43,6 +43,35 @@ export function assertModuleId(value: string): ModuleId {
 }
 
 /**
+ * Refactor (Req #2) — per-subject module visibility.
+ *
+ * The Note Generator is HIDDEN for Urdu (subject id "urdu", CAIE 3247/3248):
+ * Urdu study here is directed-writing / comprehension based, so the product
+ * surfaces only the Answering Assistant and Answer Checker for it. Islamiyat
+ * (2058) and Pakistan Studies (2059) keep all three modules. Keyed by SubjectId
+ * so it covers every Urdu paper code routed through the "urdu" subject.
+ */
+const NOTES_HIDDEN_SUBJECTS = new Set<SubjectId>(["urdu"]);
+
+/** Whether a module tab/route should be shown for a given subject. */
+export function isModuleVisible(subject: SubjectId, module: ModuleId): boolean {
+  return !(module === "notes" && NOTES_HIDDEN_SUBJECTS.has(subject));
+}
+
+/** The modules a subject exposes, in canonical order. */
+export function getVisibleModules(subject: SubjectId) {
+  return MODULES.filter((module) => isModuleVisible(subject, module.id));
+}
+
+/**
+ * The landing module for a subject — its first visible module. Urdu (notes
+ * hidden) lands on the Answering Assistant; every other subject lands on Notes.
+ */
+export function getDefaultModule(subject: SubjectId): ModuleId {
+  return getVisibleModules(subject)[0]?.id ?? "notes";
+}
+
+/**
  * Non-throwing validation of raw route params. Returns null when either
  * segment falls outside the allowed subject/module sets.
  */

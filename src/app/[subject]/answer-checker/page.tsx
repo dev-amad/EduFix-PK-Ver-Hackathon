@@ -1,3 +1,4 @@
+import { AnswerCheckerStudio } from "@/components/answer-checker/AnswerCheckerStudio";
 import { getSubject } from "@/lib/subjects";
 
 interface AnswerCheckerPageProps {
@@ -24,10 +25,14 @@ export default async function AnswerCheckerPage({
         </p>
       </header>
 
-      <section className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-sm text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100">
-        Route scaffold ready. Text/handwritten submission tabs, OCR
-        verification, and structured CAIE grading are delivered in Phase 6.
-      </section>
+      {subjectInfo ? (
+        <AnswerCheckerStudio key={subjectInfo.id} subjectId={subjectInfo.id} />
+      ) : (
+        <section className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-sm text-destructive">
+          Unknown subject &ldquo;{subject}&rdquo;. Choose Pakistan Studies,
+          Islamiyat or Urdu from the navigation.
+        </section>
+      )}
     </main>
   );
 }
